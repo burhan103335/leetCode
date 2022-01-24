@@ -1,4 +1,5 @@
 class Solution {
+    /* I'm trying to check*/
 public:
     bool detectCapitalUse(string word) {
 
