@@ -1,37 +1,26 @@
+/* Another Solution Divide And Conquer recurtion */
+
 class Solution {
 public:
+    
+    ListNode * marge2list(ListNode *l1, ListNode *l2){
+        if(l1 == NULL) return l2;
+        if(l2 == NULL) return l1;
+        
+        ListNode *head = new ListNode(l1->val < l2->val ? l1->val : l2->val);
+        head->next = l1->val < l2->val ? marge2list(l1->next, l2) : marge2list(l1, l2->next);
+        return head;
+        
+    }
+    
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-
-        ListNode *res = NULL, *tmp;
-
-        unordered_map<int, int>mp;
-
-        int mx = -100000, mn = 100000;
-
-        for(auto list : lists){
-            while(list != NULL){
-                mx = max(mx, list->val);
-                mn = min(mn, list->val);
-                mp[list->val]++;
-                list = list->next;
-            }
+        if(lists.size()==0) return NULL;
+        while(lists.size()>1){
+            lists.push_back(marge2list(lists[0], lists[1]));
+            lists.erase(lists.begin());
+            lists.erase(lists.begin());
         }
-
-
-        while(mn<=mx){
-            while(mp[mn]){
-                if(res == NULL) {
-                    res = new ListNode(mn);
-                    tmp = res;
-                }
-                else {
-                    tmp->next = new ListNode(mn);
-                    tmp = tmp->next;
-                }
-                mp[mn]--;
-            }
-            mn++;
-        }
-        return res;
+        
+        return lists[0];
     }
 };
