@@ -1,13 +1,13 @@
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        
+
         ListNode *res = NULL, *tmp;
-        
+
         unordered_map<int, int>mp;
-        
-        int mx = -100000, mn = 100000, tp = 1;
-        
+
+        int mx = -100000, mn = 100000;
+
         for(auto list : lists){
             while(list != NULL){
                 mx = max(mx, list->val);
@@ -16,14 +16,12 @@ public:
                 list = list->next;
             }
         }
-        
-        
-        
+
+
         while(mn<=mx){
             while(mp[mn]){
-                if(tp){
+                if(res == NULL) {
                     res = new ListNode(mn);
-                    tp = 0;
                     tmp = res;
                 }
                 else {
