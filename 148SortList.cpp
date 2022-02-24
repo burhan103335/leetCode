@@ -1,34 +1,41 @@
 class Solution {
-    map<int, int>mp;
-    
-    void tavers(ListNode* head) {
-        if(head == nullptr) return;
+public:
+    ListNode* marge(ListNode* first, ListNode* tmp){
+        ListNode* ans = new ListNode();
+        ListNode* cur = ans;
+        while(first != nullptr && tmp != nullptr){
+            if(first->val < tmp->val){
+                cur->next = first;
+                first = first->next;
+            }
+            else {
+                cur->next = tmp;
+                tmp = tmp->next;
+            }
+            cur = cur->next;
+        }
         
-        ++mp[head->val];
-        tavers(head->next);
+        if(first != nullptr) cur->next = first;
+        if(tmp != nullptr) cur->next = tmp;
+        
+        return ans->next;
     }
     
     
-public:
     ListNode* sortList(ListNode* head) {
-        mp.clear();
-        tavers(head);
-        int c = 0;
-        ListNode* ans = nullptr, *tmp;
+        if(head == nullptr || head->next == nullptr) return head;
         
-        for(auto it : mp){
-            if(!c) {
-                ans = new ListNode(it.first);
-                tmp = ans;
-                it.second--;
-                c = 1;
-            }
-            while(it.second){
-                tmp->next = new ListNode(it.first);
-                tmp = tmp->next;
-                it.second--;
-            }
+        
+        ListNode* tmp, *mid, *first;
+        mid = head;
+        tmp = head->next;
+        while(tmp!=nullptr && tmp->next != nullptr) {
+            mid = mid->next;
+            tmp = tmp->next->next;
         }
-        return ans;
+        first = head, tmp = mid->next, mid->next = nullptr;
+        
+        first = sortList(first), tmp = sortList(tmp);
+        return marge(first, tmp);
     }
 };
