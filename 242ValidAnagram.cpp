@@ -3,9 +3,14 @@ class Solution {
 public:
     bool isAnagram(string s, string t) {
         
-        sort(s.begin(), s.end());
-        sort(t.begin(), t.end());
+        vector<int> v(26,0), vv(26,0);
         
-        return s ==  t;
+        for(char c : s) v[c-'a'] ++;
+        for(char c : t) vv[c-'a'] ++;
+        for(int i = 0; i<26; i++) {
+            if(v[i] != vv[i]) return 0;
+        }
+        
+        return 1;
     }
 };
