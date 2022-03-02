@@ -1,5 +1,4 @@
 /**
- * 141. Linked List Cycle
  * Definition for singly-linked list.
  * struct ListNode {
  *     int val;
@@ -10,10 +9,10 @@
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        unordered_map<ListNode*, bool>mp;
-        while(head!=nullptr) {
-            if(mp[head]) return 1;
-            mp[head] = 1;
+        int ans = INT_MAX;
+        while(head != nullptr) {
+            if(head->val == ans) return 1;
+            head->val  = ans;
             head = head->next;
         }
         return 0;
